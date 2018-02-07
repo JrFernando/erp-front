@@ -11,4 +11,8 @@ export class ClientComponent implements OnInit {
   ngOnInit() {
   }
 
+  getTitle() {
+    return 'Teste';
+  }
+
 }

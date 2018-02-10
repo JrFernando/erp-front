@@ -1,0 +1,141 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <div class="radio radio-inline">
+                <input type="radio" name="typeClient" formControlName="typeClient" id="pessoaFisica" value="fisica" checked="" (change)="onSelectionTypeClient('fisica')">
+                <label for="pessoaFisica">Pessoa Física</label>
+            </div>
+            <div class="radio radio-inline">
+                <input type="radio" name="typeClient" formControlName="typeClient" id="pessoaJuridica" value="juridica" (change)="onSelectionTypeClient('juridica')">
+                <label for="pessoaJuridica">Pessoa Jurídica</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="codigo" class="control-label">Código</label>
+            <input type="text" class="form-control" id="codigo" formControlName="codigo" placeholder="Código">
+        </div>
+        <div class="form-group col-md-10" [ngClass]="aplicaCssErro('nome')">
+            <label for="nome" class="control-label" *ngIf="typeClientIsFisica()">Nome</label>
+            <label for="nome" class="control-label" *ngIf="!typeClientIsFisica()">Razão Social da Empresa</label>
+            <input type="text" class="form-control" id="nome" formControlName="nome" placeholder="Nome">
+        </div>
+    </div>
+
+    <div class="form-row" *ngIf="typeClientIsFisica()">
+        <div class="form-group col-md-3" [ngClass]="aplicaCssErro('cpf')">
+            <label for="cpf">CPF</label>
+            <input type="text" data-mask="000.000.000-00" class="form-control" formControlName="cpf" id="cpf" placeholder="xxx.xxx.xxx-xx" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="rg">RG</label>
+            <input type="text" class="form-control" id="rg" placeholder="xxxxxxx" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="data-nascimento">Data de Nascimetno</label>
+            <input type="text" class="form-control" id="data-nascimento" placeholder="DD/MM/AAAA" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="sexo" class="control-label">Sexo</label>
+            <select id="sexo" class="form-control" formControlName="sexo">
+                <option value="f">Feminino</option>
+                <option value="m">Masculino</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row" *ngIf="!typeClientIsFisica()">
+        <div class="form-group col-md-6">
+            <label for="cnpj">CNPJ</label>
+            <input type="text" class="form-control" id="cnpj" placeholder="" />
+        </div>
+
+        <div class="form-group col-md-1">
+            <div class="checkbox checkbox-inline" style="margin-top: 30px">
+                <input type="checkbox" name="icms" formControlName="icms" id="icms">
+                <label for="icms">ICMS</label>
+            </div>
+        </div>
+        <div class="form-group col-md-5">
+            <label for="ie">Imposto de Exportação</label>
+            <input type="text" class="form-control" id="ie" placeholder="Imposto de Exportação" />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6" [ngClass]="aplicaCssErro('email')">
+            <label for="email" class="control-label">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+        </div>
+        <div class="form-group col-md-3" [ngClass]="aplicaCssErro('telefone')">
+            <label for="telefone" class="control-label">Telefone</label>
+            <input type="telefone" class="form-control" id="telefone" formControlName="telefone" placeholder="(XX) XXXX-XXXX">
+        </div>
+        <div class="form-group col-md-3" [ngClass]="aplicaCssErro('celular')">
+            <label for="celular" class="control-label">Celular</label>
+            <input type="celular" class="form-control" id="celular" formControlName="celular" placeholder="(XX) X XXXX-XXXX">
+        </div>
+    </div>
+
+    <div class="form-row" *ngIf="typeClientIsFisica()">
+        <div class="form-group col-md-6">
+            <label for="nome_mae">Nome da mãe</label>
+            <input type="text" class="form-control" id="nome_mae" placeholder="Nome da mãe" />
+        </div>
+        <div class="form-group col-md-6">
+            <label for="nome_pai">Nome do pai</label>
+            <input type="text" class="form-control" id="nome_pai" placeholder="Nome do pai" />
+        </div>
+    </div>
+
+    <div formGroupName="endereco">
+        <div class="form-row">
+            <div class="form-group col-md-10" [ngClass]="aplicaCssErro('endereco.rua')">
+                <label for="rua" class="control-label">Endereço</label>
+                <input type="text" class="form-control" id="rua" formControlName="rua" placeholder="Endereço">
+            </div>
+            <div class="form-group col-md-2" [ngClass]="aplicaCssErro('endereco.numero')">
+                <label for="numero" class="control-label">Número</label>
+                <input type="text" class="form-control" id="numero" formControlName="numero" placeholder="Número">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6" [ngClass]="aplicaCssErro('endereco.bairro')">
+                <label for="bairro" class="control-label">Bairro</label>
+                <input type="text" class="form-control" id="bairro" formControlName="bairro" placeholder="Bairro">
+            </div>
+            <div class="form-group col-md-6" [ngClass]="aplicaCssErro('endereco.complemento')">
+                <label for="complemento" class="control-label">Complemento</label>
+                <input type="text" class="form-control" id="complemento" formControlName="complemento" placeholder="Complemento">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-2" [ngClass]="aplicaCssErro('endereco.cep')">
+                <label for="cep" class="control-label">CEP</label>
+                <input type="text" class="form-control" formControlName="cep" id="cep" data-mask="0000-000">
+            </div>
+            <div class="form-group col-md-6" [ngClass]="aplicaCssErro('endereco.cidade')">
+                <label for="cidade" class="control-label">Cidade</label>
+                <input type="text" class="form-control" formControlName="cidade" id="cidade">
+            </div>
+            <div class="form-group col-md-4" [ngClass]="aplicaCssErro('endereco.estado')">
+                <label for="estado" class="control-label">Estado</label>
+                <select id="estado" class="form-control" formControlName="estado">
+                    <option selected>Escolha...</option>
+                    <option>...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-default btn-fill">Submit</button>
+    <button type="button" class="btn btn-primary" (click)="resetForm()">Reset</button>
+
+    <app-form-debug [form]="formulario"></app-form-debug>
+</form>

@@ -28,15 +28,17 @@
     <div class="form-row" *ngIf="typeClientIsFisica()">
         <div class="form-group col-md-3" [ngClass]="aplicaCssErro('cpf')">
             <label for="cpf">CPF</label>
-            <input type="text" data-mask="000.000.000-00" class="form-control" formControlName="cpf" id="cpf" placeholder="xxx.xxx.xxx-xx" />
+            <input type="text" [textMask]="{mask: this.mask.CPF, guide: false}" class="form-control" formControlName="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX"
+            />
         </div>
         <div class="form-group col-md-3">
             <label for="rg">RG</label>
-            <input type="text" class="form-control" id="rg" placeholder="xxxxxxx" />
+            <input type="text" [textMask]="{mask: this.mask.RG, guide: false}" class="form-control" id="rg" placeholder="XXXXXXX" />
         </div>
         <div class="form-group col-md-3">
             <label for="data-nascimento">Data de Nascimetno</label>
-            <input type="text" class="form-control" id="data-nascimento" placeholder="DD/MM/AAAA" />
+            <input type="text" [textMask]="{mask: this.mask.DATA}" class="form-control" id="data-nascimento" placeholder="DD/MM/AAAA"
+            />
         </div>
         <div class="form-group col-md-3">
             <label for="sexo" class="control-label">Sexo</label>
@@ -48,9 +50,10 @@
     </div>
 
     <div class="form-row" *ngIf="!typeClientIsFisica()">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6" [ngClass]="aplicaCssErro('cnpj')">
             <label for="cnpj">CNPJ</label>
-            <input type="text" class="form-control" id="cnpj" placeholder="" />
+            <input type="text" [textMask]="{mask: this.mask.CNPJ}" formControlName="cnpj" class="form-control" id="cnpj" placeholder="XXX.XXX.XXX/XXXX-XX"
+            />
         </div>
 
         <div class="form-group col-md-1">
@@ -66,17 +69,19 @@
     </div>
 
     <div class="form-row">
-        <div class="form-group col-md-6" [ngClass]="aplicaCssErro('email')">
+        <div class="form-group col-md-6">
             <label for="email" class="control-label">Email</label>
             <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
         </div>
-        <div class="form-group col-md-3" [ngClass]="aplicaCssErro('telefone')">
+        <div class="form-group col-md-3">
             <label for="telefone" class="control-label">Telefone</label>
-            <input type="telefone" class="form-control" id="telefone" formControlName="telefone" placeholder="(XX) XXXX-XXXX">
+            <input type="telefone" [textMask]="{mask: this.mask.TELEFONE}" class="form-control" id="telefone" formControlName="telefone"
+                placeholder="(XX) XXXX-XXXX">
         </div>
-        <div class="form-group col-md-3" [ngClass]="aplicaCssErro('celular')">
+        <div class="form-group col-md-3">
             <label for="celular" class="control-label">Celular</label>
-            <input type="celular" class="form-control" id="celular" formControlName="celular" placeholder="(XX) X XXXX-XXXX">
+            <input type="celular" [textMask]="{mask: this.mask.CELULAR}" class="form-control" id="celular" formControlName="celular"
+                placeholder="(XX) X XXXX-XXXX">
         </div>
     </div>
 
@@ -92,14 +97,17 @@
     </div>
 
     <div formGroupName="endereco">
+        <input type="hidden" formControlName="endereco_id">
+        
         <div class="form-row">
+            <div class="form-group col-md-2" [ngClass]="aplicaCssErro('endereco.cep')">
+                <label for="cep" class="control-label">CEP</label>
+                <input type="text" [textMask]="{mask: this.mask.CEP, guide: false}" (blur)="consultaCep()" class="form-control" formControlName="cep"
+                    id="cep">
+            </div>
             <div class="form-group col-md-10" [ngClass]="aplicaCssErro('endereco.rua')">
                 <label for="rua" class="control-label">Endereço</label>
                 <input type="text" class="form-control" id="rua" formControlName="rua" placeholder="Endereço">
-            </div>
-            <div class="form-group col-md-2" [ngClass]="aplicaCssErro('endereco.numero')">
-                <label for="numero" class="control-label">Número</label>
-                <input type="text" class="form-control" id="numero" formControlName="numero" placeholder="Número">
             </div>
         </div>
 
@@ -115,9 +123,9 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group col-md-2" [ngClass]="aplicaCssErro('endereco.cep')">
-                <label for="cep" class="control-label">CEP</label>
-                <input type="text" class="form-control" formControlName="cep" id="cep" data-mask="0000-000">
+            <div class="form-group col-md-2" [ngClass]="aplicaCssErro('endereco.numero')">
+                <label for="numero" class="control-label">Número</label>
+                <input type="text" class="form-control" id="numero" formControlName="numero" placeholder="Número">
             </div>
             <div class="form-group col-md-6" [ngClass]="aplicaCssErro('endereco.cidade')">
                 <label for="cidade" class="control-label">Cidade</label>
@@ -125,16 +133,20 @@
             </div>
             <div class="form-group col-md-4" [ngClass]="aplicaCssErro('endereco.estado')">
                 <label for="estado" class="control-label">Estado</label>
-                <select id="estado" class="form-control" formControlName="estado">
-                    <option selected>Escolha...</option>
-                    <option>...</option>
-                </select>
+                <input type="text" class="form-control" formControlName="estado" id="estado">
             </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="obs" class="control-label">Observações</label>
+            <textarea class="form-control" formControlName="obs" id="obs" placeholder="Observações" rows="3"></textarea>
         </div>
     </div>
     <br />
     <br />
-    <button type="submit" class="btn btn-default btn-fill">Submit</button>
+    <button type="submit" [disabled]="!formulario.valid" class="btn btn-default btn-fill">Submit</button>
     <button type="button" class="btn btn-primary" (click)="resetForm()">Reset</button>
 
     <app-form-debug [form]="formulario"></app-form-debug>

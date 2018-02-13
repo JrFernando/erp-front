@@ -8,6 +8,8 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { ClientCreateEditComponent } from './client-create-edit/client-create-edit.component';
 import { ClienteRoutingModule } from './client.routing.module';
 import { FormDebugComponent } from '../form-debug/form-debug.component';
+import { InputMaskModule } from './../shared/input-mask/input-mask.module';
+import { ClientService } from './client.service';
 
 
 @NgModule({
@@ -16,6 +18,7 @@ import { FormDebugComponent } from '../form-debug/form-debug.component';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    InputMaskModule,
     ClienteRoutingModule
   ],
   declarations: [
@@ -24,6 +27,7 @@ import { FormDebugComponent } from '../form-debug/form-debug.component';
     ClientCreateEditComponent,
     FormDebugComponent
   ],
-  exports: [ClientComponent]
+  exports: [ClientComponent],
+  providers: [ClientService]
 })
 export class ClientModule { }

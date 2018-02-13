@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ClientService, Cliente } from '../client.service';
+
 declare interface TableData {
   headerRow: string[];
   dataRows: string[][];
@@ -12,21 +14,29 @@ declare interface TableData {
 export class ClientListComponent implements OnInit {
 
   public tableData1: TableData;
+  clientes: Cliente[];
 
-  constructor() {
+  constructor(private service: ClientService) {
+    this.clientes = service.getAll();
+
     this.tableData1 = {
-      headerRow: [ '#', 'Name', 'Job Position', 'Since', 'Salary'],
-      dataRows: [
-          ['1', 'Andrew Mike', 'Develop', '2013', '99,225'],
-          ['2', 'John Doe', 'Design', '2012', '89,241'],
-          ['3', 'Alex Mike', 'Design', '2010', '92,144'],
-          ['4', 'Mike Monday', 'Marketing', '2013', '49,990'],
-          ['5', 'Paul Dickens', 'Communication', '2015', '69,201']
-      ]
+      headerRow: [ '#', 'Nome', 'Email', 'Tipo'],
+      dataRows: []
    };
+
   }
 
   ngOnInit() {
+    this.clientes.forEach(value => {
+     const row: string[] = [
+       value.codigo,
+       value.nome,
+       value.email,
+       value.typeClient
+     ];
+ 
+     this.tableData1.dataRows.push(row);
+    });
   }
 
 }

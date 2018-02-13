@@ -6,10 +6,10 @@ import { MaskService } from './../../shared/input-mask/mask.service';
 import { ClientService } from '../client.service';
 
 @Component({
-  selector: 'app-client-create-edit',
-  templateUrl: './client-create-edit.component.html',
+  selector: 'app-client-form',
+  templateUrl: './client-form.component.html',
 })
-export class ClientCreateEditComponent implements OnInit {
+export class ClientFormComponent implements OnInit {
 
   formulario: FormGroup;
   typeClient: String = 'fisica';

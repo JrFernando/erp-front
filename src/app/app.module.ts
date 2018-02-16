@@ -10,6 +10,7 @@ import { NavbarModule} from './shared/navbar/navbar.module';
 import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
 import { NguiMapModule} from '@ngui/map';
 import { ClientModule } from './client/client.module';
+import { ProductModule } from './product/product.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserComponent } from './user/user.component';
@@ -40,7 +41,8 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
     FooterModule,
     FixedPluginModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'}),
-    ClientModule
+    ClientModule,
+    ProductModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,13 @@
-<nav>
-    <button class="btn  btn-sm btn-default">Novo</button>
-    <button class="btn  btn-sm btn-default">Inserir</button>
-    <button class="btn  btn-sm btn-default">Editar</button>    
-    <button class="btn  btn-sm btn-danger" disabled="disabled">Excluir</button>
-</nav>
+<div class="card">
+    <div class="content">
+    <nav>
+        <a routerLink="novo">
+            <button class="btn btn-success btn-fill btn-sm ti-plus"> Novo</button>
+        </a>
+        <!--button class="btn  btn-default">Editar</button>    
+    <button class="btn  btn-danger" disabled="disabled">Excluir</button-->
+    </nav>
+    </div>
+</div>
 <app-client-list></app-client-list>
+<router-outlet></router-outlet>

@@ -28,13 +28,12 @@ export class ClientListComponent implements OnInit {
 
   ngOnInit() {
     this.clientes.forEach(value => {
-     const row: string[] = [
+     const row: any[] = [
        value.codigo,
        value.nome,
        value.email,
        value.typeClient
      ];
- 
      this.tableData1.dataRows.push(row);
     });
   }

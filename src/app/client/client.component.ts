@@ -12,7 +12,7 @@ export class ClientComponent implements OnInit {
   }
 
   getTitle() {
-    return 'Teste';
+    return 'Cliente';
   }
 
 }

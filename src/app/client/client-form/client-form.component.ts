@@ -1,33 +1,79 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
+import { Subscription } from 'rxjs/Subscription';
 
 import { MaskService } from './../../shared/input-mask/mask.service';
-import { ClientService } from '../client.service';
+import { ClientService, Cliente } from '../client.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
 })
-export class ClientFormComponent implements OnInit {
+export class ClientFormComponent implements OnInit, OnDestroy {
 
   formulario: FormGroup;
-  typeClient: String = 'fisica';
+  typeClient: String;
+  private inscricao: Subscription;
+  cliente: Cliente;
 
   constructor(private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
+              private router: Router,
               private service: ClientService,
               public mask: MaskService,
               private http: Http ) {
+    this.typeClient = 'fisica';
   }
 
   ngOnInit() {
+    this.inscricao = this.route.params.subscribe(
+      (params: any) => {
+        const id = params['id'];
+        this.cliente = this.service.getId(id);
+        if (this.cliente != null) {
+          this.typeClient = this.cliente.typeClient;
+        }
+      }
+    );
+
     this.formulario = this.getForm();
+
+    if (this.cliente != null) {
+      this.patchValues(this.cliente);
+    }
+  }
+
+  ngOnDestroy() {
+    this.inscricao.unsubscribe();
+  }
+
+  patchValues(cliente: Cliente) {
+    this.formulario.patchValue(cliente);
+    this.formulario.get('typeClient').disable();
+
+    if (this.typeClientIsFisica()) {
+      this.formulario.get('cpf').disable();
+    } else {
+      this.formulario.get('cnpj').disable();
+    }
   }
 
   onSubmit() {
     console.log(this.formulario.value);
 
-    this.service.insert(this.formulario.value);
+    if (this.formulario.get('codigo').value != null) {
+      this.service.update(this.formulario.value);
+      this.router.navigate(['/cliente']);
+      this.showNotification('top', 'right', 2, 'Cliente atualizado com sucesso!');
+    } else {
+      this.service.insert(this.formulario.value);
+      this.router.navigate(['/cliente']);
+      this.showNotification('top', 'right', 2, 'Cliente salvo com sucesso!');
+    }
 
     /*this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
       .subscribe(dados => {
@@ -38,57 +84,34 @@ export class ClientFormComponent implements OnInit {
       (error: any) => alert('Erro'));*/
   }
 
-  getForm() {
-    if (this.typeClientIsFisica()) {
-      return this.formBuilder.group({
-        typeClient: ['fisica'],
-        codigo: [null],
-        nome: [null, Validators.required],
-        cpf: [null, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
-        rg: [null],
-        data_nascimento: [null],
-        sexo: ['f'],
-        email: [null],
-        telefone: [null],
-        celular: [null],
-        nome_mae: [null],
-        nome_pai: [null],
-        obs: [null],
-        endereco: this.formBuilder.group({
-          endereco_id: [null],
-          rua: [null, Validators.required],
-          numero: [null, Validators.required],
-          bairro: [null, Validators.required],
-          complemento: [null],
-          cep: [null, [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
-          cidade: [{value: null, disabled: true}, Validators.required],
-          estado: [{value: null, disabled: true}, Validators.required]
-        })
-      });
-    } else {
-      return this.formBuilder.group({
-        typeClient: ['juridica'],
-        codigo: [null],
-        nome: [null, Validators.required],
-        cnpj: [null, Validators.required],
-        icms: [false],
-        ie: [null],
-        email: [null],
-        telefone: [null],
-        celular: [null],
-        obs: [null],
-        endereco: this.formBuilder.group({
-          endereco_id: [null],
-          rua: [null, Validators.required],
-          numero: [null, Validators.required],
-          bairro: [null, Validators.required],
-          complemento: [null],
-          cep: [null, [Validators.required, Validators.minLength(9)]],
-          cidade: [{value: null, disabled: true}, Validators.required],
-          estado: [{value: null, disabled: true}, Validators.required]
-        })
-      });
-    }
+  resetForm() {
+    this.formulario.reset();
+  }
+
+  exluirCliente() {
+    const cod = this.formulario.get('codigo').value;
+    this.service.remove(cod);
+    alert('Removido');
+    this.router.navigate(['/cliente']);
+  }
+
+  showNotification(from, align, color, message) {
+    const type = ['', 'info', 'success', 'warning', 'danger'];
+
+    $.notify({
+        icon: 'ti-save',
+        // message: 'Welcome to <b>Paper Dashboard</b> - a beautiful dashboard for every web developer.'
+        message: message
+      },
+      {
+          type: type[color],
+          timer: 4000,
+          placement: {
+            from: from,
+            align: align
+          }
+      }
+    );
   }
 
   consultaCep() {
@@ -123,10 +146,6 @@ export class ClientFormComponent implements OnInit {
     this.formulario = this.getForm();
   }
 
-  resetForm() {
-    this.formulario.reset();
-  }
-
   verificaValidTouched(campo: string) {
     return !this.formulario.get(campo).valid && this.formulario.get(campo).touched;
   }
@@ -137,5 +156,59 @@ export class ClientFormComponent implements OnInit {
       'has-feedback': this.verificaValidTouched(campo)
     };
   }
+
+  getForm() {
+    if (this.typeClientIsFisica()) {
+      return this.formBuilder.group({
+        typeClient: ['fisica'],
+        codigo: [null],
+        nome: [null, Validators.required],
+        cpf: [null, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+        rg: [null],
+        data_nascimento: [null],
+        sexo: ['f'],
+        email: [null],
+        telefone: [null],
+        celular: [null],
+        nome_mae: [null],
+        nome_pai: [null],
+        obs: [null],
+        endereco: this.formBuilder.group({
+          endereco_id: [null],
+          rua: [null],
+          numero: [null],
+          bairro: [null],
+          complemento: [null],
+          cep: [null, Validators.minLength(9)],
+          cidade: [null],
+          estado: [null]
+        })
+      });
+    } else {
+      return this.formBuilder.group({
+        typeClient: ['juridica'],
+        codigo: [null],
+        nome: [null, Validators.required],
+        cnpj: [null, Validators.required],
+        icms: [false],
+        ie: [null],
+        email: [null],
+        telefone: [null],
+        celular: [null],
+        obs: [null],
+        endereco: this.formBuilder.group({
+          endereco_id: [null],
+          rua: [null],
+          numero: [null],
+          bairro: [null],
+          complemento: [null],
+          cep: [null, Validators.minLength(9)],
+          cidade: [null],
+          estado: [null]
+        })
+      });
+    }
+  }
+
 
 }

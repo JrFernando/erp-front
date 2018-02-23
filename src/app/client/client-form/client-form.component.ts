@@ -42,23 +42,23 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
     this.formulario = this.getForm();
 
-    if (this.cliente != null) {
-      this.patchValues(this.cliente);
-    }
+    this.patchValues();
   }
 
   ngOnDestroy() {
     this.inscricao.unsubscribe();
   }
 
-  patchValues(cliente: Cliente) {
-    this.formulario.patchValue(cliente);
-    this.formulario.get('typeClient').disable();
+  patchValues() {
+    if (this.cliente != null) {
+      this.formulario.patchValue(this.cliente);
+      this.formulario.get('typeClient').disable();
 
-    if (this.typeClientIsFisica()) {
-      this.formulario.get('cpf').disable();
-    } else {
-      this.formulario.get('cnpj').disable();
+      if (this.typeClientIsFisica()) {
+        this.formulario.get('cpf').disable();
+      } else {
+        this.formulario.get('cnpj').disable();
+      }
     }
   }
 

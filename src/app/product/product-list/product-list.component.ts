@@ -29,9 +29,9 @@ export class ProductListComponent implements OnInit {
     this.produtos.forEach(value => {
     const row: any[] = [
       value.codigo,
-      value.nome,
-      value.quantidade,
-      value.preco
+      value.descricao,
+      value.estoque,
+      value.preco_venda
     ];
     this.tableData1.dataRows.push(row);
    });

@@ -1,0 +1,190 @@
+<div class="card">
+  <div class="header">
+    <h4 class="title">Cadastro de Produtos</h4>
+  </div>
+  <div class="content">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+      <!--******************* TABS ************************-->
+      <div class="nav-tabs-navigation">
+        <div class="nav-tabs-wrapper">
+          <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+            <li class="active">
+              <a href="#dados" data-toggle="tab">Dados</a>
+            </li>
+            <li>
+              <a href="#tributacao" data-toggle="tab">Tributação</a>
+            </li>
+            <li>
+              <a href="#fornecedores" data-toggle="tab">Fornecedores</a>
+            </li>
+            <!--li>
+              <a href="#opcoes" data-toggle="tab">Opções</a>
+            </li>
+            <li>
+              <a href="#validade" data-toggle="tab">Validade</a>
+            </li-->
+          </ul>
+        </div>
+      </div>
+      <div id="my-tab-content" class="tab-content">
+
+        <!--******************* DADOS ************************-->
+        <div class="tab-pane active" id="dados">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="codigo" class="control-label">Código</label>
+              <input type="text" class="form-control border-input" id="codigo" formControlName="codigo" placeholder="Código">
+            </div>
+            <div class="form-group col-md-9" [ngClass]="aplicaCssErro('descricao')">
+              <label for="descricao" class="control-label">Nome</label>
+              <input type="text" class="form-control border-input" id="descricao" formControlName="descricao" placeholder="Nome">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="preco_venda" class="control-label">Preço de Venda</label>
+              <input type="text" class="form-control border-input" id="preco_venda" formControlName="preco_venda" placeholder="R$ XX,XX">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="preco_custo" class="control-label">Preço de Custo</label>
+              <input type="text" class="form-control border-input" id="preco_custo" formControlName="preco_custo" placeholder="R$ XX,XX">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="peso_liquido" class="control-label">Peso Líquido</label>
+              <input type="text" class="form-control border-input" id="peso_liquido" formControlName="peso_liquido" placeholder="XX,XX">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="peso_bruto" class="control-label">Peso Bruto</label>
+              <input type="text" class="form-control border-input" id="peso_bruto" formControlName="peso_bruto" placeholder="XX,XX">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="estoque" class="control-label">Estoque Atual</label>
+              <input type="number" class="form-control border-input" id="estoque" formControlName="estoque" placeholder="Quantidade do estoque atual">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="unidade_medida" class="control-label">Unidade de Medida</label>
+              <select id="unidade_medida" class="form-control border-input" formControlName="unidade_medida">
+                <option value="pacote">Pacote</option>
+                <option value="kg">Kg</option>
+                <option value="litros">Litros</option>
+                <option value="">...</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="estoque_minimo" class="control-label">Estoque Mínimo</label>
+              <input type="number" class="form-control border-input" id="estoque_minimo" formControlName="estoque_minimo" placeholder="Quantidade do estoque mínimo">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="estoque_maximo" class="control-label">Estoque Máximo</label>
+              <input type="number" class="form-control border-input" id="estoque_maximo" formControlName="estoque_maximo" placeholder="Quantidade do estoque máximo">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="categoria" class="control-label">Categoria</label>
+              <select id="categoria" class="form-control border-input" formControlName="categoria">
+                <option></option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="marca" class="control-label">Marca</label>
+              <select id="marca" class="form-control border-input" formControlName="marca">
+                <option></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="localizacao" class="control-label">Localização</label>
+              <input type="text" class="form-control border-input" id="localizacao" formControlName="localizacao" placeholder="Local onde o produto está armazenado">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="obs" class="control-label">Observações</label>
+              <textarea class="form-control border-input" formControlName="obs" id="obs" placeholder="Observações" rows="3"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!--******************* TRIBUTAÇÃO ************************-->
+        <div class="tab-pane" id="tributacao">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="ncm" class="control-label">NCM</label>
+              <input type="text" class="form-control border-input" id="ncm" formControlName="ncm" placeholder="Nomeclatura Comum do Mercosul">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="cest" class="control-label">CEST</label>
+              <input type="text" class="form-control border-input" id="cest" formControlName="cest" placeholder="Código Especificador da Substituiçãoo Tributária">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="tributacao" class="control-label">Tributação</label>
+              <input type="text" class="form-control border-input" id="tributacao" formControlName="tributacao" placeholder="Tributação">
+            </div>
+          </div>
+        </div>
+
+        <!--******************* FORNECEDORES ************************-->
+        <div class="tab-pane" id="fornecedores">
+          <div class="form-row">
+            <div class="form-group col-md-9">
+              <label for="fornecedor" class="control-label">Fornecedores</label>
+              <select id="fornecedor" class="form-control border-input" formControlName="fornecedor">
+                <option value="1">...</option>
+                <option value="2">...</option>
+              </select>
+            </div>
+            <div class="col-md-3" style="margin-top: 25px">
+              <button type="button" class="btn btn-default">Adicionar Fornecedor</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table datatable class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Fornecedores</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nenhum encontrado</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--******************* OPÇÕES ************************-->
+        <div class="tab-pane" id="opcoes">
+          <p>Opções</p>
+        </div>
+
+        <!--******************* VALIDADE ************************-->
+        <div class="tab-pane" id="validade">
+          <p>Validade</p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-md-12">
+          <button type="submit" [disabled]="!formulario.valid" class="btn btn-default btn-fill">Salvar</button>
+          <button type="button" class="btn btn-primary" (click)="resetForm()" *ngIf="!produto">Limpar</button>
+          <button type="button" class="btn btn-danger" (click)="exluirProduto()" *ngIf="produto">Excluir Produto</button>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </form>
+    <app-form-debug [form]="formulario"></app-form-debug>
+  </div>
+</div>

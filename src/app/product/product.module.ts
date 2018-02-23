@@ -5,15 +5,23 @@ import { ProductRoutingModule } from './product.routing.module';
 import { ProductService } from './product.service';
 import { ProductComponent } from './product.component';
 import { ProductListComponent } from './product-list/product-list.component';
+import { ProductFormComponent } from './product-form/product-form.component';
+import { FormDebugComponent } from '../form-debug/form-debug.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    ProductRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ProductRoutingModule
   ],
   declarations: [
     ProductComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductFormComponent,
+    FormDebugComponent
   ],
   exports: [ProductComponent],
   providers: [

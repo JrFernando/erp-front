@@ -20,6 +20,7 @@ import { IconsComponent } from './icons/icons.component';
 import { MapsComponent } from './maps/maps.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
+import { SaleModule } from './sale/sale.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
     FixedPluginModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'}),
     ClientModule,
-    ProductModule
+    ProductModule,
+    SaleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

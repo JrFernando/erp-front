@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="header">
+      <h4 class="title">Lista de Vendas</h4>
+  </div>
+  <div class="content">
+      <div class="table-responsive">
+          <table datatable class="table table-hover table-striped">
+              <thead>
+                  <tr>
+                      <th>{{ tableData1.headerRow[0] }}</th>
+                      <th>{{ tableData1.headerRow[1] }}</th>
+                      <th class="text-center"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let row of tableData1.dataRows">
+                      <td>{{row[0]}}</td>
+                      <td>{{row[1] | currency:'BRL': 'symbol-narrow':'1.2-2'}}</td>	
+                      <td class="text-center">
+                          <a [routerLink]="['editar', row[0]]">
+                              <button class="btn btn-primary btn-simple">Ver Detalhes</button>
+                          </a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>

@@ -21,6 +21,7 @@ import { MapsComponent } from './maps/maps.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { SaleModule } from './sale/sale.module';
+import { ProviderComponent } from './provider/provider.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { SaleModule } from './sale/sale.module';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
+    ProviderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,9 @@
+# ERP-FRONT
+
+This project was created with the intention of learning the Angular Framework.
+
+Este projeto foi criado com intuito de aprender o Framework Angular. 
+
 # [Paper Dashboard Angular](https://www.creative-tim.com/product/paper-dashboard-angular)
 [![version][version-badge]][CHANGELOG]
 [![license][license-badge]][LICENSE]
